@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { FaBars, FaTimes, FaShoppingCart } from "react-icons/fa";
 import { BsMoonStars, BsSun } from "react-icons/bs";
 
-const Navbar = () => {
+const Navbar = ({ handleScrollTo }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [language, setLanguage] = useState("EN");
 
-  const navItems = ["Home", "Menu", "Specials", "Gallery", "Contact"];
+  const navItems = ["Home", "Menu", "Specials", "Gallery", "Serve"];
 
   // Scroll effect
   useEffect(() => {
@@ -55,6 +55,7 @@ const Navbar = () => {
           {navItems.map((item, index) => (
             <li
               key={index}
+              onClick={() => handleScrollTo(item.toLowerCase())}
               className={`relative group text-lg font-semibold cursor-pointer transition duration-300 ${
                 darkMode || scrolled ? "text-white" : "text-gray-800"
               } hover:text-yellow-300`}
@@ -80,14 +81,12 @@ const Navbar = () => {
 
         {/* Right Side Icons */}
         <div className="flex items-center space-x-4">
-          {/* Cart */}
           <FaShoppingCart
             className={`text-xl cursor-pointer transition hover:text-yellow-300 ${
               darkMode || scrolled ? "text-white" : "text-red-600"
             }`}
           />
 
-          {/* Dark Mode Toggle */}
           <div className="cursor-pointer text-xl" onClick={() => setDarkMode(!darkMode)}>
             {darkMode ? (
               <BsSun className="text-yellow-300" />
@@ -119,6 +118,10 @@ const Navbar = () => {
             {navItems.map((item, index) => (
               <li
                 key={index}
+                onClick={() => {
+                  handleScrollTo(item.toLowerCase());
+                  setMenuOpen(false); // close menu on click
+                }}
                 className="text-white font-medium border-b border-red-400 pb-2 hover:text-yellow-200 transition-all duration-300"
               >
                 {item}
