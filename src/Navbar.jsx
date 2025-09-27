@@ -12,20 +12,15 @@ const Navbar = ({ handleScrollTo }) => {
 
   // Scroll effect
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Dark mode toggler
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    if (darkMode) document.documentElement.classList.add("dark");
+    else document.documentElement.classList.remove("dark");
   }, [darkMode]);
 
   return (
@@ -43,7 +38,7 @@ const Navbar = ({ handleScrollTo }) => {
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
         <h1
-          className={`text-2xl md:text-3xl font-extrabold tracking-wide ${
+          className={`text-xl sm:text-2xl md:text-3xl font-extrabold tracking-wide ${
             darkMode || scrolled ? "text-white" : "text-red-600"
           }`}
         >
@@ -51,12 +46,12 @@ const Navbar = ({ handleScrollTo }) => {
         </h1>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex items-center space-x-8">
+        <ul className="hidden md:flex items-center space-x-6 lg:space-x-8">
           {navItems.map((item, index) => (
             <li
               key={index}
               onClick={() => handleScrollTo(item.toLowerCase())}
-              className={`relative group text-lg font-semibold cursor-pointer transition duration-300 ${
+              className={`relative group text-sm sm:text-base md:text-lg font-semibold cursor-pointer transition duration-300 ${
                 darkMode || scrolled ? "text-white" : "text-gray-800"
               } hover:text-yellow-300`}
             >
@@ -80,29 +75,34 @@ const Navbar = ({ handleScrollTo }) => {
         </ul>
 
         {/* Right Side Icons */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3 sm:space-x-4">
+          {/* Shopping Cart */}
           <FaShoppingCart
-            className={`text-xl cursor-pointer transition hover:text-yellow-300 ${
-              darkMode || scrolled ? "text-white" : "text-red-600"
+            className={`text-xl sm:text-2xl cursor-pointer transition hover:text-yellow-300 ${
+              darkMode ? "text-white" : scrolled ? "text-white" : "text-red-600"
             }`}
           />
 
-          <div className="cursor-pointer text-xl" onClick={() => setDarkMode(!darkMode)}>
+          {/* Dark/Light Mode Toggle */}
+          <div
+            className="cursor-pointer text-xl sm:text-2xl"
+            onClick={() => setDarkMode(!darkMode)}
+          >
             {darkMode ? (
               <BsSun className="text-yellow-300" />
             ) : (
               <BsMoonStars
                 className={`${
-                  scrolled ? "text-white" : "text-red-600"
+                  darkMode ? "text-white" : scrolled ? "text-white" : "text-red-600"
                 } hover:text-yellow-300`}
               />
             )}
           </div>
 
-          {/* Hamburger for Mobile */}
+          {/* Hamburger Icon for Mobile */}
           <div
-            className={`md:hidden text-2xl ${
-              darkMode || scrolled ? "text-white" : "text-gray-800"
+            className={`md:hidden text-2xl sm:text-3xl cursor-pointer ${
+              darkMode ? "text-white" : scrolled ? "text-white" : "text-red-600"
             }`}
             onClick={() => setMenuOpen(!menuOpen)}
           >
@@ -112,37 +112,39 @@ const Navbar = ({ handleScrollTo }) => {
       </div>
 
       {/* Mobile Dropdown Menu */}
-      {menuOpen && (
-        <div className="md:hidden bg-red-600 px-6 py-4 animate-fadeInDown rounded-b-xl">
-          <ul className="space-y-4">
-            {navItems.map((item, index) => (
-              <li
-                key={index}
-                onClick={() => {
-                  handleScrollTo(item.toLowerCase());
-                  setMenuOpen(false); // close menu on click
-                }}
-                className="text-white font-medium border-b border-red-400 pb-2 hover:text-yellow-200 transition-all duration-300"
-              >
-                {item}
-              </li>
-            ))}
-
-            {/* Language */}
-            <li className="text-white">
-              <select
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                className="bg-transparent text-white outline-none"
-              >
-                <option className="text-black" value="EN">English</option>
-                <option className="text-black" value="UR">Urdu</option>
-                <option className="text-black" value="AR">Arabic</option>
-              </select>
+      <div
+        className={`md:hidden fixed top-16 left-0 w-full bg-red-600 transition-all duration-300 overflow-hidden rounded-b-xl ${
+          menuOpen ? "max-h-screen py-4" : "max-h-0"
+        }`}
+      >
+        <ul className="flex flex-col items-center space-y-4 px-6">
+          {navItems.map((item, index) => (
+            <li
+              key={index}
+              onClick={() => {
+                handleScrollTo(item.toLowerCase());
+                setMenuOpen(false);
+              }}
+              className="text-white font-medium border-b border-red-400 pb-2 w-full text-center hover:text-yellow-200 transition-all duration-300"
+            >
+              {item}
             </li>
-          </ul>
-        </div>
-      )}
+          ))}
+
+          {/* Language */}
+          <li className="text-white">
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              className="bg-transparent text-white outline-none"
+            >
+              <option className="text-black" value="EN">English</option>
+              <option className="text-black" value="UR">Urdu</option>
+              <option className="text-black" value="AR">Arabic</option>
+            </select>
+          </li>
+        </ul>
+      </div>
     </nav>
   );
 };

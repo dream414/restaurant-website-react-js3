@@ -1,26 +1,11 @@
 import { useState } from "react";
 
 const tabData = [
-  {
-    name: "Pizza",
-    images: ["/pizza1.png", "/pizza2.png"],
-  },
-  {
-    name: "Burger",
-    images: ["/burger1.png", "/burger2.png"],
-  },
-  {
-    name: "Pasta",
-    images: ["/pasta1.png", "/pasta2.png"],
-  },
-  {
-    name: "Biryani",
-    images: ["/biryani1.png", "/biryani2.png"],
-  },
-  {
-    name: "Dessert",
-    images: ["/dessert1.png", "/dessert2.png"],
-  },
+  { name: "Pizza", images: ["/pizza1.png", "/pizza2.png"] },
+  { name: "Burger", images: ["/burger1.png", "/burger2.png"] },
+  { name: "Pasta", images: ["/pasta1.png", "/pasta2.png"] },
+  { name: "Biryani", images: ["/biryani1.png", "/biryani2.png"] },
+  { name: "Dessert", images: ["/dessert1.png", "/dessert2.png"] },
 ];
 
 const MenuTabs = () => {
@@ -31,19 +16,19 @@ const MenuTabs = () => {
       
       {/* Heading */}
       <h2 className="text-4xl md:text-5xl font-bold text-center text-red-700 mb-12 animate-fadeInDown tracking-wide shadow-md">
-     Our Menu
+        Our Menu
       </h2>
 
       {/* Main Flex Layout */}
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start gap-10">
         
         {/* Left Tabs */}
-        <div className="flex md:flex-col gap-4 w-full md:w-1/4">
+        <div className="flex flex-row md:flex-col w-full md:w-1/4 gap-4 overflow-x-auto md:overflow-x-visible">
           {tabData.map((tab, index) => (
             <button
               key={index}
               onClick={() => setActiveTab(index)}
-              className={`w-full text-left  cursor-pointer px-4 py-3 rounded-lg border text-sm md:text-base font-medium transition-all duration-300 shadow ${
+              className={`flex-shrink-0 w-32 md:w-full mb-4 text-center md:text-left px-4 py-3 rounded-lg border text-sm md:text-base font-medium transition-all duration-300 shadow ${
                 activeTab === index
                   ? "bg-red-600 text-white border-red-600"
                   : "bg-white text-gray-800 border-gray-300 hover:bg-red-100"
@@ -61,7 +46,7 @@ const MenuTabs = () => {
               key={i}
               src={img}
               alt={`Dish ${i}`}
-              className=" cursor-pointer w-full h-80 object-contain rounded-xl shadow-xl border-4 border-red-300 hover:scale-105 transition-transform duration-500"
+              className="cursor-pointer w-full h-80 object-contain rounded-xl shadow-xl border-4 border-red-300 hover:scale-105 transition-transform duration-500"
             />
           ))}
         </div>
